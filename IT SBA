@@ -1,0 +1,113 @@
+begin
+      constant max=30
+      declare array id [max] of string
+      declare array lname [max] of string
+      declare array fname [max] of string
+      declare array gradenum [max] of integer
+      declare array pplan [max] of char
+      declare array plan [max] of string
+      declare array bal [max] of real
+      declare array sfee [max] of real
+      declare array paidamount [max] of real
+      declare sname as string
+      declare lowerbal,upperbal,sixthbal as real
+      declare count,snumber,choice,cont as integer
+      declare found as boolean
+      for count<-1 to max do
+          write "Enter the first name of the student."
+          read fname[count]
+          write "Enter the last name of the student."
+          read lname[count]
+          write "Enter the grade level of the student from grades 7-13."
+          read gradenum[count]
+      endfor
+      if gradenum[count]<7 or gradenum[count]>13 then
+         repeat
+               write "The school does not offer that grade level of teaching."
+               write "Enter the grade level of the student from grades 7-13"
+               read gradenum[count] 
+         until gradenum[count]>=7 and gradenum[count]<=13
+      endif
+      write "Enter the payment plan of the student. E-Early-bird  H-Half-payment  P-Per-term"
+      read pplan[count] 
+      if pplan[count]<>'E' and pplan[count]<>'H' and pplan[count]<>'P' then
+         repeat
+               write "The wrong letter was entered"
+               write "Enter the payment plan of the student. E-Early-bird  H-Half-payment  P-Per-term"
+               read pplan[count]
+         until pplan[count]='E' or pplan[count]='H' or pplan[count]='P'
+       endif
+      write "Enter the ID number of the student."
+      read id[count]
+      write "Do you want to continue? 1-yes 2-no"
+      read cont 
+      if cont=2 then count:=max;
+      endif
+      count<-1
+      for count<-1 to max do
+          if (gradenum[count]>=7) and (gradenum[count]<=9) then sfee[count]<-350000
+          else if (gradenum[count]=10) or (gradenum[count]=11) then sfee[count]<-400000
+               else if (gradenum[count]=12) or (gradenum[count]=13) then sfee[count]<-550000
+          if pplan[count]='E' then sfee[count]<-sfee[count]*0.9
+          else if pplan[count]='H' then sfee[count]<-sfee[count]*0.95
+               else if pplan[count]='P' then sfee[count]<-sfee[count]*1.075
+          if pplan[count]='E' then paidamount[count]<-sfee[count]
+          else if pplan[count]='H' then paidamount[count]<-sfee[count]*0.5
+               else if pplan[count]='P' then paidamount[count]<-sfee[count]*(1/3)
+      endfor
+      count<-1
+      for count<-1 to max do
+          if pplan[count]='E' then plan[count]<-'early-bird'
+          else if pplan[count]='H' then plan[count]<-'half-payment'
+               else if pplan[count]='P' then plan[count]<-'per-term'
+      endfor
+      count<-1
+      for count<-1 to max do bal[count]<-sfee[count] - paidamount[count]
+      endfor
+      count<-1
+      lowerbal<-0
+      upperbal<-0
+      sixthbal<-0
+      while count<31 do
+            if (gradenum[count]>=7) and (gradenum[count]<=9) then lowerbal<-lowerbal + bal[count]
+            else if (gradenum[count]=10) or (gradenum[count]=11) then upperbal<-upperbal + bal[count]
+                 else if (gradenum[count]=12) or (gradenum[count]=13) then sixthbal<-sixthbal + bal[count]
+             count<-count + 1
+      endwhile
+      writeln "The total balance for lower school is $",lowerbal,"."
+      writeln "The total balance for upper school is $",upperbal,"."
+      writeln "The total balance for sixth form is $",sixthbal,"."
+      writeln "Do you want the infomation of one of the students? 1-yes  2-no"
+      read choice
+      if choice<>1 and choice<>2 then
+         repeat
+               write "The wrong number was entered"
+               write "Do you want the infomation of one of the students? 1-yes  2-no"
+               read choice
+         until choice=1 or choice=2
+      endif 
+      if choice=1 then
+         write "What is the name of the student you wish search?"
+         read sname
+         count<-1
+         snumber<-0
+         found<-false
+         while found=false and count<=max do
+               if fname[count]=sname then
+                  found<-true
+                  snumber<-count
+               else
+                   count<-count+1
+               endif
+               sfee[count]<-0
+               if found=true then
+                  write "The id of ",sname," ",lname[snumber]," is ",id[snumber]," and is in grade ",gradenum[snumber],"."
+                  write sname," is using the ",plan[snumber]," plan and paid ",paidamount[snumber]," of the total ",sfee[snumber],"."
+                  write sname," has $",bal[snumber]," yet to be paid."
+               else
+                  write "Data Not Found"
+                  end
+               endif
+         endwhile
+      endif    
+end
