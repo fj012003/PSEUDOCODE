@@ -87,27 +87,31 @@ begin
          until choice=1 or choice=2
       endif 
       if choice=1 then
-         write "What is the name of the student you wish search?"
-         read sname
-         count<-1
-         snumber<-0
-         found<-false
-         while found=false and count<=max do
-               if fname[count]=sname then
-                  found<-true
-                  snumber<-count
-               else
-                   count<-count+1
-               endif
-               sfee[count]<-0
-               if found=true then
-                  write "The id of ",sname," ",lname[snumber]," is ",id[snumber]," and is in grade ",gradenum[snumber],"."
-                  write sname," is using the ",plan[snumber]," plan and paid ",paidamount[snumber]," of the total ",sfee[snumber],"."
-                  write sname," has $",bal[snumber]," yet to be paid."
-               else
-                  write "Data Not Found"
-                  end
-               endif
-         endwhile
+         repeat
+               write "What is the name of the student you wish search?"
+               read sname
+               count<-1
+               snumber<-0
+               found<-false
+               while found=false and count<=max do
+                    if fname[count]=sname then
+                       found<-true
+                       snumber<-count
+                    else
+                       count<-count+1
+                    endif
+                    sfee[count]<-0
+                    if found=true then
+                       write "The id of ",sname," ",lname[snumber]," is ",id[snumber]," and is in grade ",gradenum[snumber],"."
+                       write sname," is using the ",plan[snumber]," plan and paid ",paidamount[snumber]," of the total ",sfee[snumber],"."
+                       write sname," has $",bal[snumber]," yet to be paid."
+                    else
+                       write "Data Not Found"
+                       end
+                    endif
+               endwhile
+               write "Do you want to search for the information of another student? 1-yes  2-no"
+               read choice
+         until choice=2                         
       endif    
 end
